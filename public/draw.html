@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@7.2.2/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>NN - Written digits</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #fff;
+      }
+      #container {
+        cursor: crosshair;
+        width: 28px;
+        height: 28px;
+        border: 2px solid black;
+        margin: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div id="container"></div>
+      <form action="/predict" method="post" target="_self">
+        <input type="hidden" id="image64based" name="image64based" />
+      </form>
+      <button id="refresh">refresh</button>
+      <p id="result"></p>
+    </div>
+    <script>
+      var width = 28;
+      var height = 28;
+
+      // first we need Konva core things: stage and layer
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+      stage.container().style.backgroundColor = 'white';
+
+      // then we are going to draw into special canvas element
+      var canvas = document.createElement('canvas');
+      canvas.width = stage.width();
+      canvas.height = stage.height();
+
+      // created canvas we can add to layer as "Konva.Image" element
+      var image = new Konva.Image({
+        image: canvas,
+        x: 0,
+        y: 0,
+        fill: 'white'
+      });
+      layer.add(image);
+      stage.draw();
+
+      // Good. Now we need to get access to context element
+      var context = canvas.getContext('2d');
+      context.strokeStyle = '#000';
+      context.lineJoin = 'round';
+      context.lineWidth = 2;
+
+      var isPaint = false;
+      var lastPointerPosition;
+      var mode = 'brush';
+
+      // now we need to bind some events
+      // we need to start drawing on mousedown
+      // and stop drawing on mouseup
+      image.on('mousedown touchstart', function () {
+        isPaint = true;
+        lastPointerPosition = stage.getPointerPosition();
+      });
+
+      // will it be better to listen move/end events on the window?
+      stage.on('mouseup touchend', function () {
+        isPaint = false;
+        console.log(image.toDataURL('image/png', 0));
+        document.getElementById('image64based').value = image.toDataURL(
+          'image/png',
+          0
+        );
+
+        let data = image.toDataURL('image/png', 0);
+        let url = '/predict';
+        var request = new XMLHttpRequest();
+        request.open('POST', url, true);
+        request.onload = function () {
+          switch (request.status) {
+            case 200:
+              document.getElementById('result').textContent =
+                request.responseText;
+              break;
+            default:
+              const emojis = [ "😢", "🥺", "😖", "😩", "🤨", "🧐", "😤", "😭", "😐", "😰", "😨", "😧"];
+              const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+              document.getElementById('result').textContent =
+                "something went wrong..." + emoji;
+              break;
+          }
+        };
+
+        request.onerror = function () {
+          document.getElementById('result').textContent = 'ERROR';
+        };
+
+        request.setRequestHeader(
+          'Content-type',
+          'application/x-www-form-urlencoded'
+        );
+        request.send('data=' + encodeURIComponent(data));
+      });
+
+      // and core function - drawing
+      stage.on('mousemove touchmove', function () {
+        if (!isPaint) {
+          return;
+        }
+
+        context.globalCompositeOperation = 'source-over';
+        context.beginPath();
+
+        var localPos = {
+          x: lastPointerPosition.x - image.x(),
+          y: lastPointerPosition.y - image.y()
+        };
+        context.moveTo(localPos.x, localPos.y);
+        var pos = stage.getPointerPosition();
+        localPos = {
+          x: pos.x - image.x(),
+          y: pos.y - image.y()
+        };
+        context.lineTo(localPos.x, localPos.y);
+        context.closePath();
+        context.stroke();
+
+        lastPointerPosition = pos;
+        layer.batchDraw();
+      });
+
+      var refresh = document.getElementById('refresh');
+
+      refresh.addEventListener('click', function() {
+        window.location.reload();
+      });
+    </script>
+  </body>
+</html>

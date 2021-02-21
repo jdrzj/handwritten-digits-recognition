@@ -1,0 +1,40 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    chunky_png (1.4.0)
+    lbfgsb (0.3.2)
+      numo-narray (>= 0.9.1)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
+    numo-narray (0.9.1.9)
+    rack (2.2.3)
+    rack-protection (2.1.0)
+      rack
+    rice (3.0.0)
+    ruby2_keywords (0.0.4)
+    rumale (0.22.3)
+      lbfgsb (>= 0.3.0)
+      numo-narray (>= 0.9.1)
+    rumale-torch (0.1.0)
+      rumale
+      torch-rb
+    sinatra (2.1.0)
+      mustermann (~> 1.0)
+      rack (~> 2.2)
+      rack-protection (= 2.1.0)
+      tilt (~> 2.0)
+    tilt (2.0.10)
+    torch-rb (0.5.3)
+      rice (>= 2.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  chunky_png
+  rumale
+  rumale-torch
+  sinatra
+
+BUNDLED WITH
+   2.1.4
