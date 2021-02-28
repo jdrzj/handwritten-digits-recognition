@@ -10,11 +10,12 @@
         padding: 0;
         overflow: hidden;
         background-color: #fff;
+        -webkit-font-smoothing: antialiased;
       }
       #container {
         cursor: crosshair;
-        width: 28px;
-        height: 28px;
+        width: 56px;
+        height: 56px;
         border: 2px solid black;
         margin: 10px;
       }
@@ -31,8 +32,9 @@
       <p id="result"></p>
     </div>
     <script>
-      var width = 28;
-      var height = 28;
+      const SIZE = 56;
+      const width = SIZE;
+      const height = SIZE;
 
       // first we need Konva core things: stage and layer
       var stage = new Konva.Stage({
@@ -42,8 +44,6 @@
       });
 
       var layer = new Konva.Layer();
-      stage.add(layer);
-      stage.container().style.backgroundColor = 'white';
 
       // then we are going to draw into special canvas element
       var canvas = document.createElement('canvas');
@@ -57,6 +57,9 @@
         y: 0,
         fill: 'white'
       });
+      stage.add(layer);
+      stage.container().style.backgroundColor = 'white';
+
       layer.add(image);
       stage.draw();
 
@@ -64,15 +67,12 @@
       var context = canvas.getContext('2d');
       context.strokeStyle = '#000';
       context.lineJoin = 'round';
-      context.lineWidth = 2;
+      context.lineWidth = 4;
 
       var isPaint = false;
       var lastPointerPosition;
       var mode = 'brush';
 
-      // now we need to bind some events
-      // we need to start drawing on mousedown
-      // and stop drawing on mouseup
       image.on('mousedown touchstart', function () {
         isPaint = true;
         lastPointerPosition = stage.getPointerPosition();
@@ -98,10 +98,23 @@
                 request.responseText;
               break;
             default:
-              const emojis = [ "😢", "🥺", "😖", "😩", "🤨", "🧐", "😤", "😭", "😐", "😰", "😨", "😧"];
+              const emojis = [
+                '😢',
+                '🥺',
+                '😖',
+                '😩',
+                '🤨',
+                '🧐',
+                '😤',
+                '😭',
+                '😐',
+                '😰',
+                '😨',
+                '😧'
+              ];
               const emoji = emojis[Math.floor(Math.random() * emojis.length)];
               document.getElementById('result').textContent =
-                "something went wrong..." + emoji;
+                'something went wrong...' + emoji;
               break;
           }
         };
@@ -144,9 +157,7 @@
         layer.batchDraw();
       });
 
-      var refresh = document.getElementById('refresh');
-
-      refresh.addEventListener('click', function() {
+      document.getElementById('refresh').addEventListener('click', function () {
         window.location.reload();
       });
     </script>

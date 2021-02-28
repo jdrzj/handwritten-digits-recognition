@@ -3,5 +3,5 @@ require "bundler"
 
 Bundler.require
 
-require './app'
-run App
+require './hdr_app'
+run HDRApp
