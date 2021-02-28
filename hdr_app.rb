@@ -12,7 +12,7 @@ class HDRApp < Sinatra::Base
     base64_data = URI.unescape(params[:data])
     paths = HDR::Service.create_libsvm_and_image_from_base64(base64_data)
     result = HDR::Service.predict_from_libsvm(paths[:libsvm_set_path])
-    "IT IS: #{result.to_a.join(" or ")}"
+    "It is #{result}"
   end
 
   run! if app_file == $0

@@ -46,10 +46,11 @@ module HDR
         classifier.model = net
 
         # Loading test dataset
-        x_test, y_test = Rumale::Dataset.load_libsvm_file(libsvm_file_path)
+        x_test, _ = Rumale::Dataset.load_libsvm_file(libsvm_file_path)
 
         # Predict labels of test data
-        classifier.predict(x_test)
+        results = classifier.predict(x_test)
+        results.to_a.join(" or ")
       end
     end
   end
