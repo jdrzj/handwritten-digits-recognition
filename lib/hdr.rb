@@ -1,1 +1,1 @@
-class HDR;end
+module HDR;end

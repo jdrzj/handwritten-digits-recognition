@@ -1,7 +1,7 @@
 require "rubygems"
 require "bundler"
+require './hdr_app'
 
 Bundler.require
 
-require './hdr_app'
 run HDRApp

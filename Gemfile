@@ -3,6 +3,7 @@
 source "https://rubygems.org"
 
 gem "chunky_png"
-gem "rumale"
 gem "sinatra"
+gem "rack"
+gem "rumale"
 gem "rumale-torch"
