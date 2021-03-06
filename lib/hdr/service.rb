@@ -1,7 +1,7 @@
-require "rumale"
-require "rumale/torch"
-require "chunky_png"
-require_relative "./neural_network.rb"
+require 'rumale'
+require 'rumale/torch'
+require 'chunky_png'
+require_relative './neural_network'
 
 module HDR
   class Service
@@ -12,7 +12,7 @@ module HDR
 
     class << self
       def create_libsvm_and_image_from_base64(data)
-        rand = (0...6).map { (65 + rand(26)).chr }.join.downcase
+        rand = (0...6).map { rand(65..90).chr }.join.downcase
 
         digit_image_path = "#{rand}_image.png"
 
@@ -21,16 +21,15 @@ module HDR
         canvas.resample_bilinear!(IMAGE_SIZE, IMAGE_SIZE)
         canvas.to_image.save("data/smaller_#{digit_image_path}")
 
-        values = canvas.pixels.map { |a|
-          255 - (ChunkyPNG::Color.r(a))
-        }.map.with_index {
-          |value, index|
+        values = canvas.pixels.map do |a|
+          255 - ChunkyPNG::Color.r(a)
+        end.map.with_index do |value, index|
           "#{index + 1}:#{value}"
-        }.join(" ")
+        end.join(' ')
 
         libsvm_set_path = "data/#{rand}.libsvm"
 
-        File.open(libsvm_set_path, "wb") do |f|
+        File.open(libsvm_set_path, 'wb') do |f|
           f.write("0 #{values}")
         end
 
@@ -39,18 +38,18 @@ module HDR
 
       def predict_from_libsvm(libsvm_file_path)
         net = HDR::NeuralNetwork.new(INPUT_LAYER, OUTPUT_LAYER, INNER_LAYERS)
-        net.load_state_dict(Torch.load("models/model.pth"))
+        net.load_state_dict(Torch.load('models/model.pth'))
 
         # Loading classifier
-        classifier = Marshal.load(File.binread("models/model.dat"))
+        classifier = Marshal.load(File.binread('models/model.dat'))
         classifier.model = net
 
         # Loading test dataset
-        x_test, _ = Rumale::Dataset.load_libsvm_file(libsvm_file_path)
+        x_test, = Rumale::Dataset.load_libsvm_file(libsvm_file_path)
 
         # Predict labels of test data
         results = classifier.predict(x_test)
-        results.to_a.join(" or ")
+        results.to_a.join(' or ')
       end
     end
   end

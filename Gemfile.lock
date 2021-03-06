@@ -1,16 +1,35 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    ast (2.4.2)
     chunky_png (1.4.0)
     lbfgsb (0.3.2)
       numo-narray (>= 0.9.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     numo-narray (0.9.1.9)
+    parallel (1.20.1)
+    parser (3.0.0.0)
+      ast (~> 2.4.1)
     rack (2.2.3)
     rack-protection (2.1.0)
       rack
+    rainbow (3.0.0)
+    regexp_parser (2.1.1)
+    rexml (3.2.4)
     rice (3.0.0)
+    rubocop (1.11.0)
+      parallel (~> 1.10)
+      parser (>= 3.0.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml
+      rubocop-ast (>= 1.2.0, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 3.0)
+    rubocop-ast (1.4.1)
+      parser (>= 2.7.1.5)
+    ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.4)
     rumale (0.22.3)
       lbfgsb (>= 0.3.0)
@@ -26,6 +45,7 @@ GEM
     tilt (2.0.10)
     torch-rb (0.5.3)
       rice (>= 2.2)
+    unicode-display_width (2.0.0)
 
 PLATFORMS
   ruby
@@ -33,6 +53,7 @@ PLATFORMS
 DEPENDENCIES
   chunky_png
   rack
+  rubocop
   rumale
   rumale-torch
   sinatra
