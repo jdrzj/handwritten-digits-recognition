@@ -2,9 +2,11 @@
 Handwritten digits recognition using NN and Ruby 🧠💎
 
 ## About the project
-This project is using neural network written in ruby for handwritten digits recognition.
+This project is using neural network written in ruby for handwritten digits recognition. It is complete solution with frontend and backend parts.
 Model was trained and tested on [MNIST](http://yann.lecun.com/exdb/mnist/) handwritten digits set converted into libsvm format dataset.
 Set contains 60k train and 10k test examples.
+
+![digits 0-9](https://github.com/jdrzj/handwritten-digits-recognition/raw/main/digits.gif)
 
 ## Instalation
 Application is using [Rumale::Torch](https://github.com/yoshoku/rumale-torch), which requires to install [LibTorch](https://github.com/ankane/torch.rb#libtorch-installation):
