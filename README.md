@@ -31,8 +31,60 @@ bundle install
 
 For Linux please follow Dockerfile when installing libtorch.
 
-## Transforming data to libsvm format
-todo
+## Model & training data
+### Transforming data to libsvm format
+Download MNIST file and extract it in `/utils` folder:
 
-## Training model
-todo
+#### Downloading & etracting training set
+```bash
+cd utils/
+wget https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/mnist.t.bz2
+wget https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/mnist.bz2
+bzip2 -d mnist.t.bz2 mnist.bz2
+```
+
+#### Prepare libsvm files
+MNIST files does not contain zero values, which is problematic when using Rumale library. The simple fix is to fill it with zeros, and make sure we have 784 values (28x28 pixels) in one line. For that there is script:
+
+```bash
+// in utils/
+ruby fill_libsvm_with_zeros.rb mnist
+ruby fill_libsvm_with_zeros.rb mnist.t
+```
+
+##### Libsvm files
+Libsvm files contain datas in multiple lines with format:
+
+```
+<label> <index1>:<value1> <index2>:<value3> ...
+.
+.
+.
+```
+
+For MNIST data which are just 28x28 pixels images of digits index is the position of pixel (`x=index%size`, `y=floor(index/size)`) and value is color of pixel (0-white, 255-black).
+
+### Training & testing model
+#### Training model
+Now you can start training with `train.rb` script.
+```bash
+// in utils/
+ruby train.rb
+```
+
+Mind that it has parameters such as:
+- batch_size
+- max_epoch
+- validation_split
+- layers
+
+For training you can tweak them and see how it impacts the learning process and accuracy.
+
+#### Testing model
+To test model simply run:
+```bash
+// in utils/
+ruby test.rb
+```
+
+Make sure scipt is using the right model file, and NN has the same dimensions as in training.

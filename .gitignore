@@ -1,1 +1,7 @@
 data/*
+mnist.t
+mnist
+*.pth
+*.dat
+*.libsvm
+.DS_Store
