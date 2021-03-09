@@ -11,7 +11,7 @@ Set contains 60k train and 10k test examples.
 ## Instalation
 Application is using [Rumale::Torch](https://github.com/yoshoku/rumale-torch), which requires to install [LibTorch](https://github.com/ankane/torch.rb#libtorch-installation):
 
-### Building docker image
+### Running app with docker
 Build image:
 ```bash
 docker build -t hdr_app .
@@ -90,3 +90,7 @@ ruby test.rb
 ```
 
 Make sure scipt is using the right model file, and NN has the same dimensions as in training.
+
+#### Using different model in app
+To use you own model copy your .dat and .pth file to models folder, and rename it to `model.dat` and `model.pth`.
+The default model has ~97% accuracy.

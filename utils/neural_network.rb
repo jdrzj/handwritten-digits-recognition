@@ -1,4 +1,4 @@
-require "rumale/torch"
+require 'rumale/torch'
 
 # Class represents neural network
 

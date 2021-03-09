@@ -1,4 +1,5 @@
 data/*
+utils/images/
 mnist.t
 mnist
 *.pth

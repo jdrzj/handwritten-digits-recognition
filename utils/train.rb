@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require 'rumale'
 require 'rumale/torch'
 require './neural_network'
 require 'pry'
-
 
 Torch.manual_seed(1)
 device = Torch.device('cpu')

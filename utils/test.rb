@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 
-require "rumale"
-require "rumale/torch"
-require "./neural_network.rb"
+require 'rumale'
+require 'rumale/torch'
+require './neural_network'
 
 Torch.manual_seed(1)
 device = Torch.device('cpu')
@@ -22,4 +23,4 @@ p_test = classifier.predict(x_test)
 
 # Evaluate predicted result.
 accuracy = Rumale::EvaluationMeasure::Accuracy.new.score(y_test, p_test)
-puts(format("Accuracy: %2.2f%%", accuracy * 100))
+puts(format('Accuracy: %2.2f%%', accuracy * 100))
